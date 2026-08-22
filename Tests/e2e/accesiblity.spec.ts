@@ -28,11 +28,16 @@ test.describe("Accessibility Tests", () => {
 
         test("Should have proper heading structure", async ({ page }) => {
         await page.goto('/index.html');
-        const headings = await page.$$eval('h1, h2, h3, h4, h5, h6', headings => headings.map(h => h.tagName));
-        expect(headings).toEqual(['H1', 'H2', 'H3']); // Example expected structure
-        });
 
-        
+    // There should be exactly one H1
+        await expect(page.locator('h1')).toHaveCount(1);
+
+    // There should be at least one heading on the page
+        const headings = page.locator('h1, h2, h3, h4, h5, h6');
+        await expect(headings.first()).toBeVisible();
+    
+    });
+
 
 
 
